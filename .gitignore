@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /out/
+ai-ngobrol-firebase-adminsdk-fbsvc-29e95ac2d5.json
 
 # production
 /build
