@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fetch = require('node-fetch');
@@ -14,9 +16,15 @@ const client = new Client({
   authStrategy: new LocalAuth()
 });
 
-client.on('qr', qr => {
+client.on('qr', async qr => {
   qrcode.generate(qr, { small: true });
   fs.writeFileSync('latest-qr.txt', qr);
+  // Simpan QR ke Firestore
+  try {
+    await db.collection('wa').doc('latest-qr').set({ qr, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+  } catch (e) {
+    console.error('Gagal simpan QR ke Firestore:', e);
+  }
 });
 client.on('ready', () => console.log('WhatsApp bot ready!'));
 

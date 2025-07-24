@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import admin from 'firebase-admin';
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT!)),
+  });
+}
+const db = admin.firestore();
 
 export async function GET() {
   try {
-    const qr = fs.readFileSync('latest-qr.txt', 'utf8');
-    return NextResponse.json({ qr });
-  } catch {
+    const doc = await db.collection('wa').doc('latest-qr').get();
+    const data = doc.data();
+    return NextResponse.json({ qr: data?.qr ?? null });
+  } catch (e) {
     return NextResponse.json({ qr: null });
   }
 } 
