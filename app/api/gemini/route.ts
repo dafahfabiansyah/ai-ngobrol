@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     const response = await result.response;
     const text = response.text();
     return NextResponse.json({ text });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed to fetch from Gemini' }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message || 'Failed to fetch from Gemini' }, { status: 500 });
   }
 } 

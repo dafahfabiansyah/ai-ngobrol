@@ -24,6 +24,7 @@ export default function Home() {
         { role: "bot", text: data.text || data.error || "(No response)" },
       ]);
     } catch (e) {
+      console.error(e);
       setMessages((msgs) => [
         ...msgs,
         { role: "bot", text: "Terjadi error saat menghubungi server." },
