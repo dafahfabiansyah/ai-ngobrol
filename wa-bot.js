@@ -2,8 +2,8 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fetch = require('node-fetch');
 const admin = require('firebase-admin');
-const serviceAccount = require('./ai-ngobrol-firebase-adminsdk-fbsvc-29e95ac2d5.json');
 const fs = require('fs');
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -48,7 +48,7 @@ client.on('message', async msg => {
 
   // Kirim ke Gemini
   try {
-    const res = await fetch('http://localhost:3000/api/gemini', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gemini`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages })

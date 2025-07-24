@@ -17,6 +17,9 @@
 /.next/
 /out/
 ai-ngobrol-firebase-adminsdk-fbsvc-29e95ac2d5.json
+latest-qr.txt
+.wwebjs_cache
+.wwebjs_auth
 
 # production
 /build
